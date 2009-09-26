@@ -4,7 +4,7 @@
  * @date Sep 24, 2009
  */
 import java.awt.*;
-
+import javax.swing.JOptionPane;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.ActionListener;
@@ -14,15 +14,15 @@ import javax.swing.table.AbstractTableModel;
 
 public class FieldFrame extends JFrame implements ActionListener
 {
-	private JPanel inputPanel;
+	private JPanel inputPanel, dispPanel;
 	private BorderLayout borderLayout1;
 	private JTextField txtLName, txtFName, txtHrRate;
-	private JButton butSubmit;
+	private JButton butSubmit,hrsWorked;
 	private JLabel lblLName, lblFName, lblHrRate;
 	private EmployeeDB employeeDB;
 	private JTable emplTable;
 	private String[][] employeeData;
-	private String[] colHeadings={ "Employee Number" , "Last Name" , "First Name" , "Hourly Rate" };
+	private String[] colHeadings={ "Employee Number" , "Last Name" , "First Name" , "Hourly Rate", "Weekly Pay" };
 	
 	//TextFieldConstructor******************
 	public FieldFrame()
@@ -31,6 +31,8 @@ public class FieldFrame extends JFrame implements ActionListener
 		//setup panels and general layout of the screen.
 		inputPanel = new JPanel();
 		inputPanel.setLayout (new GridLayout(4,1));
+		dispPanel = new JPanel();
+		dispPanel.setLayout(new FlowLayout());
 		borderLayout1 = new BorderLayout(3,3);
 		setLayout( borderLayout1);
 		
@@ -43,14 +45,16 @@ public class FieldFrame extends JFrame implements ActionListener
 		txtHrRate = new JTextField();
 		txtHrRate.setBorder(BorderFactory.createLineBorder(Color.black));
 		butSubmit = new JButton("Submit");
+		hrsWorked = new JButton("Submit TimeSheet");
 		lblFName = new JLabel("Enter first name: ");
 		lblHrRate = new JLabel("Enter hourly rate in USD:");
 		lblLName = new JLabel("Enter surname:");
 		employeeData = new String[EmployeeDB.getCustomerCount()-1][4];
 		employeeData=EmployeeDB.getEmployeeData();
 		emplTable = new JTable( employeeData,colHeadings );	
+		emplTable.setPreferredScrollableViewportSize( new Dimension(200,100));
 
-		//add components to the proper panel
+		//add components to the input panel
 		inputPanel.add(lblLName, BorderLayout.EAST );
 		inputPanel.add( txtLName, BorderLayout.EAST );
 		inputPanel.add( lblFName, BorderLayout.EAST );
@@ -58,10 +62,13 @@ public class FieldFrame extends JFrame implements ActionListener
 		inputPanel.add( lblHrRate, BorderLayout.EAST );
 		inputPanel.add( txtHrRate,BorderLayout.EAST );
 		inputPanel.add( butSubmit,BorderLayout.EAST );
-		add( emplTable, BorderLayout.CENTER );
+		inputPanel.add( hrsWorked,BorderLayout.EAST );
 		
+		//add components to the dispPanel
+		dispPanel.add(emplTable);
 		//Add inputPanel into main JPanel
-		add(inputPanel, BorderLayout.EAST);
+		add( inputPanel, BorderLayout.EAST );
+		add( dispPanel, BorderLayout.WEST );
 		
 		//Process Actions and Events
 		butSubmit.addActionListener(
@@ -90,15 +97,32 @@ public class FieldFrame extends JFrame implements ActionListener
 						fName="";
 						hrRate="";
 						dblHrRate=0;
-						employeeData=EmployeeDB.getEmployeeData();
+						displayEmployeeData();
 					}//end method actionPerformed
 				}//end anonymous innerclass for submit button
 		);//end call to butSubmit.addActionListner
+		
+		hrsWorked.addActionListener(
+				//Process Submit Button event
+				new ActionListener()//anonymous inner class
+				{
+					public void actionPerformed(ActionEvent ae)
+					{
+						int empIDNum = Integer.parseInt(JOptionPane.showInputDialog("Enter Employee ID Number: "));
+				        double empWorkHrs = Double.parseDouble(JOptionPane.showInputDialog("Enter Hours Worked: "));
+				        double weekPay = EmployeeDB.getWeeklyPay(empIDNum,empWorkHrs);
+				        JOptionPane.showMessageDialog(null,"Weekly Pay is: $"+ weekPay);
+					}//end method actionPerformed
+				}//end anonymous innerclass for hrsWorked button
+		);//end call to hrsWorked.addActionListner
+		
 	}//end Method fieldFrame
 	
 	public void displayEmployeeData()
 	{
-		
+		employeeData=EmployeeDB.getEmployeeData();
+		inputPanel.repaint();
+		dispPanel.validate();
 	}//end method displayEmployeeData
 	
 }//End class FieldFrame

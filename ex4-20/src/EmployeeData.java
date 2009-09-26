@@ -39,18 +39,4 @@ public class EmployeeData
 	{
 		return hrRate;
 	}//end getHrRate
-	
-	public double getWeeklyPay(double wkHours)
-	{
-		double total;
-		if (wkHours > 40) 
-		{
-			total=40*hrRate;
-			wkHours-=40;
-			total=total+(wkHours*hrRate*1.5);
-			return total;
-		}//End IF Statement
-		total = wkHours*hrRate;
-		return total;
-	}//End Get WeeklyPay
 }//End Class EmployeeData

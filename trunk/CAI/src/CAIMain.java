@@ -13,14 +13,12 @@ import javax.swing.*;
 public class CAIMain
 {
 	//Declarations	
-	private static final long serialVersionUID = -1467134787061032084L;
+	//private static final long serialVersionUID = -1467134787061032084L;
 	
 	public static void main(String[] args) 
 	{
-		CAIMainView mainFrame = new CAIMainView();
-		//create a new frame to hold the panel
-		//set the frame to exit when it is closed
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		CAIMainView mainFrame = new CAIMainView();//create a new frame to hold the panel
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//set the frame to exit when it is closed
 		mainFrame.setSize( 400, 300);// set the size of the frame
 		mainFrame.setVisible( true );// make the frame visible
 		

@@ -12,10 +12,10 @@ public class AirlineTicketSystem
 	/**
 	 * @param args
 	 */	
+	public static LabelFrame labelFrame;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		LabelFrame labelFrame = new LabelFrame();//create LabelFrame
+		labelFrame = new LabelFrame();//create LabelFrame
 		labelFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
 		labelFrame.setSize(800,600); //set frame size
 		labelFrame.setVisible( true ); //display frame

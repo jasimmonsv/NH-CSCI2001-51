@@ -1,8 +1,13 @@
+/**
+ * 
+ * @author J.A. Simmons V
+ * @version 1.0 17Nov2009
+ * 
+ * This class builds the frame and handles all events
+ */
 import java.awt.*;
 import javax.swing.*;
-
 import sun.audio.AudioPlayer;
-
 import java.awt.event.*;
 
 
@@ -17,6 +22,7 @@ public class MainFrame extends JFrame
 	JPanel pnlCenterPanel, pnlDiceRoll;
 	private JButton btnRoll;
 	private Dice dice;
+	private int dice1, dice2;
 	
 	//Constructor
 	public MainFrame()
@@ -47,11 +53,14 @@ public class MainFrame extends JFrame
 	
 	}//end Constructor
 	
+	/**
+	 * This method sets the rolldice and 
+	 */
 	private void rollDice()
 	{
 		//initialize	
-		int dice1 = dice.rollDice();
-		int dice2 = dice.rollDice();
+		dice1 = dice.rollDice();
+		dice2 = dice.rollDice();
 		//remove all from panels
 		pnlDiceRoll.removeAll();
 		//rebuild
@@ -73,8 +82,27 @@ public class MainFrame extends JFrame
 		{
 			Object obj = ae.getSource();
 			if (obj == btnRoll)
-				AudioPlayer.player.start(dice.getSound(0));
+				try
+				{
+					AudioPlayer.player.start(dice.getSound(0));
+					
+				}//end try block
+				catch(Exception exception)
+				{
+					exception.printStackTrace();
+				}//end catch
+				for (int i =0;i<50000;i++)
+				{
+					for (int j=0;j < 70000;j++);
+				}
 				rollDice();		
+				if (dice1+dice2 == 7)
+					{
+					try{
+						AudioPlayer.player.start(dice.getSound(1));
+					}
+					catch(Exception exception){}
+					}
 			
 		}//end method actionPerformed */
 		

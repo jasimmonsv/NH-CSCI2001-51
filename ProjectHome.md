@@ -1,0 +1,1 @@
+Projects and assignments from Structures of Computer Programming Class at North Hennepin Community College
